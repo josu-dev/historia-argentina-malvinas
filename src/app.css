@@ -1,0 +1,78 @@
+@import 'tailwindcss';
+@plugin '@tailwindcss/forms';
+@plugin '@tailwindcss/typography';
+@plugin 'tailwindcss-animate';
+
+@font-face {
+    font-family: 'Lexend';
+    font-style: normal;
+    font-weight: 100 900;
+    font-display: swap;
+    src: url('/fonts/Lexend/Lexend-VariableFont_wght.ttf') format('truetype');
+}
+
+@theme {
+    --font-lexend: Lexend;
+    --color-bluish-dark-brown: oklch(0.2943 0.042 26.76);
+    --color-greenish-white: oklch(0.95 0.0281 124.79);
+    --color-pale-grass: oklch(0.7033 0.0747 70.15);
+    --color-pale-yellow: oklch(0.7684 0.0757 95.79);
+}
+
+@custom-variant scrollbar {
+    &::-webkit-scrollbar {
+        @slot;
+    }
+}
+
+@custom-variant scrollbar-corner {
+    &::-webkit-scrollbar-corner {
+        @slot;
+    }
+}
+
+@custom-variant scrollbar-thumb {
+    &::-webkit-scrollbar-thumb {
+        @slot;
+    }
+}
+
+@custom-variant scrollbar-thumb-hover {
+    &::-webkit-scrollbar-thumb:hover, &::-webkit-scrollbar-thumb:active {
+        @slot;
+    }
+}
+
+@utility outline-dev {
+    @apply outline outline-fuchsia-500;
+}
+
+@utility gutter-stable {
+    scrollbar-gutter: stable;
+}
+
+@layer base {
+    * {
+        @apply select-none;
+    }
+
+    html, body {
+        @apply h-full;
+    }
+
+    body {
+        @apply overflow-y-scroll overflow-x-clip font-lexend bg-bluish-dark-brown text-greenish-white scrollbar:w-2 scrollbar:bg-transparent scrollbar-thumb:bg-pale-yellow gutter-stable;
+    }
+
+    a, button, input {
+        @apply cursor-pointer;
+    }
+
+    a {
+        @apply underline;
+    }
+
+    button:disabled, input:disabled {
+        @apply cursor-not-allowed;
+    }
+}
