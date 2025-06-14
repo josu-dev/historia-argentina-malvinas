@@ -9,7 +9,7 @@
 
   const { data, initial = {} }: ExperienceFormProps = $props();
 
-  const dialog_open = mutable(initial.open ?? true);
+  const dialog_open = mutable(initial.open ?? false);
   let section_id = $state("");
 
   const form = superForm(data);

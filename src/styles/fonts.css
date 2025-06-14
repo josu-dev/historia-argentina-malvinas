@@ -1,0 +1,33 @@
+@theme {
+  --font-*: initial;
+  --font-lexend: Lexend;
+  --font-opendyslexic: OpenDyslexic;
+}
+
+@font-face {
+  font-family: 'Lexend';
+  font-style: normal;
+  font-weight: 100 900;
+  font-display: swap;
+  src: url('/fonts/Lexend/Lexend-VariableFont_wght.ttf') format('truetype');
+}
+
+@font-face {
+  font-family: 'OpenDyslexic';
+  src: url('/fonts/OpenDyslexic/OpenDyslexic-Regular.woff2') format('woff2'), /* Super Modern Browsers */
+    url('/fonts/OpenDyslexic/OpenDyslexic-Regular.woff') format('woff'), /* Pretty Modern Browsers */
+    url('/fonts/OpenDyslexic/OpenDyslexic-Regular.otf') format('opentype'); /* Safari, Android, iOS */
+  font-weight: 400;
+  font-style: normal;
+  font-display: swap;
+}
+
+@font-face {
+  font-family: 'OpenDyslexic';
+  src: url('/fonts/OpenDyslexic/OpenDyslexic-Bold.woff2') format('woff2'),
+    url('/fonts/OpenDyslexic/OpenDyslexic-Bold.woff') format('woff'),
+    url('/fonts/OpenDyslexic/OpenDyslexic-Bold.otf') format('opentype');
+  font-weight: 700;
+  font-style: normal;
+  font-display: swap;
+}

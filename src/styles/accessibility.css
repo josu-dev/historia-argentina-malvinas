@@ -1,0 +1,38 @@
+@theme {
+  --a11y-lh-scale: 1;
+
+  --leading-*: initial;
+  --leading-tight: calc(var(--a11y-lh-scale) * 1.25);
+  --leading-snug: calc(var(--a11y-lh-scale) * 1.375);
+  --leading-normal: calc(var(--a11y-lh-scale) * 1.5);
+  --leading-relaxed: calc(var(--a11y-lh-scale) * 1.625);
+  --leading-loose: calc(var(--a11y-lh-scale) * 2);
+
+  --text-*: initial;
+  --text-xs: 0.75rem;
+  --text-xs--line-height: calc(var(--a11y-lh-scale) * (1 / 0.75));
+  --text-sm: 0.875rem;
+  --text-sm--line-height: calc(var(--a11y-lh-scale) * (1.25 / 0.875));
+  --text-base: 1rem;
+  --text-base--line-height: calc(var(--a11y-lh-scale) * (1.5 / 1));
+  --text-lg: 1.125rem;
+  --text-lg--line-height: calc(var(--a11y-lh-scale) * (1.75 / 1.125));
+  --text-xl: 1.25rem;
+  --text-xl--line-height: calc(var(--a11y-lh-scale) * (1.75 / 1.25));
+  --text-2xl: 1.5rem;
+  --text-2xl--line-height: calc(var(--a11y-lh-scale) * (2 / 1.5));
+  --text-3xl: 1.875rem;
+  --text-3xl--line-height: calc(var(--a11y-lh-scale) * (2.25 / 1.875));
+  --text-4xl: 2.25rem;
+  --text-4xl--line-height: calc(var(--a11y-lh-scale) * (2.5 / 2.25));
+  --text-5xl: 3rem;
+  --text-5xl--line-height: var(--a11y-lh-scale);
+  --text-6xl: 3.75rem;
+  --text-6xl--line-height: var(--a11y-lh-scale);
+  --text-7xl: 4.5rem;
+  --text-7xl--line-height: var(--a11y-lh-scale);
+  --text-8xl: 6rem;
+  --text-8xl--line-height: var(--a11y-lh-scale);
+  --text-9xl: 8rem;
+  --text-9xl--line-height: var(--a11y-lh-scale);
+}

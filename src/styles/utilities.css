@@ -1,0 +1,33 @@
+@custom-variant dark (&:is(.dark *));
+
+@utility gutter-stable {
+  scrollbar-gutter: stable;
+}
+
+@custom-variant scrollbar {
+  &::-webkit-scrollbar {
+    @slot;
+  }
+}
+
+@custom-variant scrollbar-corner {
+  &::-webkit-scrollbar-corner {
+    @slot;
+  }
+}
+
+@custom-variant scrollbar-thumb {
+  &::-webkit-scrollbar-thumb {
+    @slot;
+  }
+}
+
+@custom-variant scrollbar-thumb-hover {
+  &::-webkit-scrollbar-thumb:hover, &::-webkit-scrollbar-thumb:active {
+    @slot;
+  }
+}
+
+@utility outline-dev {
+  @apply outline outline-fuchsia-500;
+}

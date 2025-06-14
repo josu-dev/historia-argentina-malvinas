@@ -1,8 +1,13 @@
 <script lang="ts">
   import { page } from "$app/state";
-  import { DEFAULT_FONT_SIZE, DEFAULT_TTS, DEFAULT_TTS_VOLUME } from "$lib/constants.js";
+  import {
+    DEFAULT_FONT_FAMILY,
+    DEFAULT_FONT_SIZE,
+    DEFAULT_GRAPHICS_VISIBILITY,
+    DEFAULT_LINE_HEIGHT,
+  } from "$lib/constants.js";
   import { mutable } from "$lib/utils.svelte.js";
-  import { Dialog, Select, Slider, Toggle } from "bits-ui";
+  import { Dialog, Select, Toggle } from "bits-ui";
   import Button from "../element/Button.svelte";
 
   type Props = {};
@@ -11,22 +16,49 @@
 
   const dialog_open = mutable(false);
 
-  const font_sizes = [
-    { value: "12", label: "12" },
-    { value: "14", label: "14" },
-    { value: "16", label: "16" },
-    { value: "20", label: "20" },
-    { value: "24", label: "24" },
-    { value: "32", label: "32" },
-    { value: "48", label: "48" },
-    { value: "64", label: "64" },
+  const font_families = [
+    { value: "lexend", label: "Lexend" },
+    { value: "opendyslexic", label: "Open Dyslexic" },
   ];
+  let font_family = $state(DEFAULT_FONT_FAMILY);
+  $effect(() => {
+    document.documentElement.dataset.font = font_family;
+  });
 
+  const font_sizes = [
+    { value: "12", label: "12 pt" },
+    { value: "14", label: "14 pt" },
+    { value: "16", label: "16 pt" },
+    { value: "18", label: "18 pt" },
+    { value: "20", label: "20 pt" },
+    { value: "24", label: "24 pt" },
+    { value: "36", label: "36 pt" },
+  ];
   let font_size = $state(DEFAULT_FONT_SIZE);
+  $effect(() => {
+    document.documentElement.dataset.fontSize = font_size;
+  });
 
-  let tts_enabled = $state(DEFAULT_TTS);
+  const line_heights = [
+    { value: "1", label: "1" },
+    { value: "1.25", label: "1.25" },
+    { value: "1.5", label: "1.5" },
+    { value: "1.75", label: "1.75" },
+    { value: "2", label: "2" },
+  ];
+  let line_height = $state(DEFAULT_LINE_HEIGHT);
+  $effect(() => {
+    document.documentElement.dataset.lineHeight = line_height;
+  });
 
-  let tts_volume = $state(DEFAULT_TTS_VOLUME);
+  let graphics_visibility = $state(DEFAULT_GRAPHICS_VISIBILITY);
+  $effect(() => {
+    if (graphics_visibility) {
+      delete document.documentElement.dataset.hideGraphics;
+    } else {
+      document.documentElement.dataset.hideGraphics = "";
+    }
+  });
 
   let current_page = $derived(page.url.pathname);
 </script>
@@ -57,17 +89,22 @@
           </Dialog.Close>
         </div>
 
-        <div class="flex flex-col gap-4">
-          <div class="flex gap-4 justify-between">
+        <div class="flex flex-col gap-3">
+          <div class="flex gap-3 justify-between">
+            {@render OptionLabel("option-font-family", "Fuente")}
+            {@render FontFamilyInput()}
+          </div>
+          <div class="flex gap-3 justify-between">
             {@render OptionLabel("option-font-size", "Tamaño de letra")}
             {@render FontSizeInput()}
           </div>
-          <div class="flex flex-col gap-2">
-            <div class="flex gap-4 justify-between">
-              {@render OptionLabel("option-font-size", "Texto a voz")}
-              {@render TTSToggleInput()}
-            </div>
-            {@render TTSVolumeInput()}
+          <div class="flex gap-3 justify-between">
+            {@render OptionLabel("option-line-height", "Tamaño de linea")}
+            {@render LineHeightInput()}
+          </div>
+          <div class="flex gap-3 justify-between">
+            {@render OptionLabel("option-font-size", "Graficos visibles")}
+            {@render GraphicsVisibilityInput()}
           </div>
         </div>
 
@@ -101,10 +138,41 @@
   <label for={input_id} class="">{text}</label>
 {/snippet}
 
+{#snippet FontFamilyInput()}
+  <Select.Root type="single" value={font_family} onValueChange={(v) => (font_family = v)} items={font_families}>
+    <Select.Trigger
+      class="w-[14ch] text-center -translate-y-0.5 translate-x-5 border-2 border-transparent data-[state=open]:border-bluish-dark-brown"
+    >
+      {font_families.find((f) => f.value === font_family)?.label}
+    </Select.Trigger>
+    <Select.Portal>
+      <Select.Content
+        class="bg-orange-200 border-2 border-t-0 border-bluish-dark-brown text-lg z-50 max-h-[50vh] w-[var(--bits-select-anchor-width)] text-center overflow-y-auto overflow-x-clip scrollbar:bg-transparent scrollbar:w-1 scrollbar-thumb:bg-black"
+        side="bottom"
+        alignOffset={0}
+        sideOffset={0}
+        align="center"
+      >
+        {#each font_families as theme (theme.value)}
+          <Select.Item
+            class="text-bluish-dark-brown cursor-pointer data-selected:bg-bluish-dark-brown data-selected:text-greenish-white data-highlighted:!bg-pale-grass w-full px-2"
+            value={theme.value}
+            label={theme.label}
+          >
+            {#snippet children({ selected })}
+              {theme.label}
+            {/snippet}
+          </Select.Item>
+        {/each}
+      </Select.Content>
+    </Select.Portal>
+  </Select.Root>
+{/snippet}
+
 {#snippet FontSizeInput()}
   <Select.Root type="single" value={font_size} onValueChange={(v) => (font_size = v)} items={font_sizes}>
     <Select.Trigger
-      class="w-16 text-center -translate-y-0.5 translate-x-5 border-2 border-transparent data-[state=open]:border-bluish-dark-brown"
+      class="w-18 text-center -translate-y-0.5 translate-x-5 border-2 border-transparent data-[state=open]:border-bluish-dark-brown"
     >
       {font_size}
     </Select.Trigger>
@@ -132,29 +200,45 @@
   </Select.Root>
 {/snippet}
 
-{#snippet TTSToggleInput()}
+{#snippet LineHeightInput()}
+  <Select.Root type="single" value={line_height} onValueChange={(v) => (line_height = v)} items={line_heights}>
+    <Select.Trigger
+      class="w-18 text-center -translate-y-0.5 translate-x-5 border-2 border-transparent data-[state=open]:border-bluish-dark-brown"
+    >
+      {line_height}
+    </Select.Trigger>
+    <Select.Portal>
+      <Select.Content
+        class="bg-orange-200 border-2 border-t-0 border-bluish-dark-brown text-lg z-50 max-h-[50vh] w-[var(--bits-select-anchor-width)] text-center overflow-y-auto overflow-x-clip scrollbar:bg-transparent scrollbar:w-1 scrollbar-thumb:bg-black"
+        side="bottom"
+        alignOffset={0}
+        sideOffset={0}
+        align="center"
+      >
+        {#each line_heights as theme (theme.value)}
+          <Select.Item
+            class="text-bluish-dark-brown cursor-pointer data-selected:bg-bluish-dark-brown data-selected:text-greenish-white data-highlighted:!bg-pale-grass w-full px-2"
+            value={theme.value}
+            label={theme.label}
+          >
+            {#snippet children({ selected })}
+              {theme.label}
+            {/snippet}
+          </Select.Item>
+        {/each}
+      </Select.Content>
+    </Select.Portal>
+  </Select.Root>
+{/snippet}
+
+{#snippet GraphicsVisibilityInput()}
   <div class="">
-    <Toggle.Root class="uppercase" bind:pressed={tts_enabled}>
-      {#if tts_enabled}
+    <Toggle.Root class="uppercase w-18 translate-x-5" bind:pressed={graphics_visibility}>
+      {#if graphics_visibility}
         Si
       {:else}
         No
       {/if}
     </Toggle.Root>
-  </div>
-{/snippet}
-
-{#snippet TTSVolumeInput()}
-  <div class="gap-4 flex">
-    <Slider.Root type="single" bind:value={tts_volume} class="w-48 relative flex touch-none items-center">
-      <span class="bg-transparent relative h-2.5 w-full cursor-pointer overflow-hidden border border-bluish-dark-brown">
-        <Slider.Range class="bg-bluish-dark-brown absolute h-full" />
-      </span>
-      <Slider.Thumb index={0} class="bg-bluish-dark-brown block size-5 cursor-pointer" />
-    </Slider.Root>
-
-    <div class="w-[7ch] text-right">
-      {tts_volume} %
-    </div>
   </div>
 {/snippet}
