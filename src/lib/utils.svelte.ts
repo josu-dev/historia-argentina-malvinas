@@ -1,5 +1,15 @@
 import { untrack } from 'svelte';
 
+export type Async<T> = Promise<T>;
+
+export type AsyncArray<T> = Promise<Array<T>>;
+
+export type AsyncOptional<T> = Promise<undefined | T>;
+
+export type Pretty<T> = {
+    [K in keyof T]: T[K];
+} & {};
+
 
 export function uuidv4(): string {
     // crypto.randomUUID is not available in secure contexts. in that case
@@ -7,6 +17,7 @@ export function uuidv4(): string {
     const out = crypto.randomUUID?.() ?? Array.from(crypto.getRandomValues(new Uint8Array(18)), b => b.toString(16).padStart(2, '0')).join('');
     return out;
 }
+
 
 export function effect_once(fn: () => (void | (() => void))): void {
     $effect(() => {
@@ -36,8 +47,8 @@ export function mutable<T>(value: T): Mutable<T> {
 
     function set(value: MutableUpdater<T>): T {
         const new_value = typeof value === 'function' ? (value as (prev: T) => T)(derived) : value;
-        derived = new_value
-        return new_value
+        derived = new_value;
+        return new_value;
     }
 
     return { get, set };

@@ -9,9 +9,6 @@
   let { children, class: classes, ...rest_props }: Props = $props();
 </script>
 
-<button
-  {...rest_props}
-  class="uppercase font-medium px-2 py-1.5 disabled:opacity-75 {classes}"
->
+<button {...rest_props} class="uppercase font-medium px-2 py-1.5 disabled:opacity-75 {classes}">
   {@render children()}
 </button>

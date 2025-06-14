@@ -1,25 +1,26 @@
 <script lang="ts">
-  import ExperienceDialog from '$lib/components/home/experiences_dialog.svelte';
-  import Hero from '$lib/components/home/hero.svelte';
-  import EventSection from '$lib/components/home/section.svelte';
-  import type { MalvinasSection } from '$lib/shared/malvinas.js';
-  import { untrack } from 'svelte';
-  import { sections } from './data.js';
+  import ExperienceForm from "$lib/components/home/experience_form.svelte";
+  import ExperienceDialog from "$lib/components/home/experiences_dialog.svelte";
+  import Hero from "$lib/components/home/hero.svelte";
+  import EventSection from "$lib/components/home/section.svelte";
+  import Main from "$lib/components/site/main.svelte";
+  import type * as Model from "$lib/types.js";
+  import { untrack } from "svelte";
+  import type { PageData } from "./$types.js";
 
-  const {} = $props();
+  const { data }: { data: PageData } = $props();
 
+  const sections = $derived(data.sections);
   let dialog: ExperienceDialog;
 
-  function on_experiences(value: MalvinasSection) {
-    untrack(() => dialog.open_with(value.experiences));
+  function on_experiences(value: Model.EventSectionWithExperiences) {
+    untrack(() => dialog.open_for(value));
   }
 
-  $effect(() => {
-    on_experiences(sections[0]);
-  });
+  let experience_form: ExperienceForm;
 </script>
 
-<main class="max-w-6xl mx-auto">
+<Main class="max-w-6xl mx-auto">
   <Hero />
   <div class="">
     {#each sections as section, i (section.id)}
@@ -28,6 +29,14 @@
       <div class="w-1/6 mx-auto h-96"></div>
     {/each}
   </div>
-</main>
+</Main>
 
-<ExperienceDialog data={sections[0].experiences} bind:this={dialog} />
+<ExperienceDialog
+  event={sections[0]}
+  bind:this={dialog}
+  on_add={({ id }) => {
+    experience_form.open_for(id);
+  }}
+/>
+
+<ExperienceForm bind:this={experience_form} data={data.experience_form} />

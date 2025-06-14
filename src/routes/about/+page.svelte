@@ -1,18 +1,19 @@
 <script lang="ts">
-  import EventSection from '$lib/components/about/event_section.svelte';
-  import Hero from '$lib/components/about/hero.svelte';
-  import { sections } from './data.js';
+  import Main from "$lib/components/site/main.svelte";
+  import type { PageData } from "./$types.js";
+  import EventSection from "./event_section.svelte";
+  import Hero from "./hero.svelte";
 
-  const {} = $props();
+  const { data }: { data: PageData } = $props();
 </script>
 
-<main class="max-w-6xl mx-auto">
+<Main class="max-w-6xl mx-auto">
   <Hero />
   <div class="">
-    {#each sections as section, i (section.id)}
+    {#each data.sections as section, i (section.id)}
       {@const reverse = i % 2 === 1}
       <EventSection data={section} {reverse} />
       <div class="w-1/6 mx-auto h-96"></div>
     {/each}
   </div>
-</main>
+</Main>

@@ -1,32 +1,34 @@
 <script lang="ts">
-  import Button from '$lib/components/element/Button.svelte';
-  import ExperienceContent from '$lib/components/home/experience_content.svelte';
-  import ExperienceForm from '$lib/components/home/experience_form.svelte';
-  import type { ExperiencesDialogProps } from '$lib/components/home/impl.js';
-  import type { MalvinasExperience } from '$lib/shared/malvinas.js';
-  import { effect_once, mutable } from '$lib/utils.svelte.js';
-  import { Dialog } from 'bits-ui';
+  import Button from "$lib/components/element/Button.svelte";
+  import ExperienceContent from "$lib/components/home/experience_content.svelte";
+  import type { ExperiencesDialogProps } from "$lib/components/home/impl.js";
+  import type * as Model from "$lib/types.js";
+  import { mutable } from "$lib/utils.svelte.js";
+  import { Dialog } from "bits-ui";
 
-  const { data }: ExperiencesDialogProps = $props();
-  let experiences = $derived(data);
+  const { event: default_event, open = false, on_add }: ExperiencesDialogProps = $props();
+  let event = $derived(default_event);
+  let experiences = $derived(event?.experiences ?? []);
   let curr_i = $state(0);
 
   const prev_available = $derived(experiences.length > 0 && curr_i > 0);
   const next_available = $derived(curr_i < experiences.length - 1);
   const exp = $derived.by(() => {
-    const current = curr_i >= experiences.length ? (undefined as unknown as MalvinasExperience) : experiences[curr_i];
+    const current =
+      curr_i >= experiences.length ? (undefined as unknown as Model.EventExperience) : experiences[curr_i];
     const out = {
       current: current,
     };
     return out;
   });
 
-  const dialog_open = mutable(false);
-
-  let experience_form: ExperienceForm;
+  const dialog_open = mutable(open);
 
   function handle_add() {
-    experience_form.open_for(exp.current.id);
+    if (event === undefined || on_add === undefined) {
+      return;
+    }
+    on_add({ id: event.id });
   }
 
   function handle_prev() {
@@ -43,8 +45,8 @@
     curr_i += 1;
   }
 
-  export function open_with(value: MalvinasExperience[]): void {
-    experiences = value;
+  export function open_for(value: Model.EventSectionWithExperiences): void {
+    event = value;
     dialog_open.set(true);
   }
 </script>
@@ -69,7 +71,11 @@
         </div>
 
         <div class="overflow-hidden">
-          <ExperienceContent data={exp.current} />
+          {#if exp.current}
+            <ExperienceContent experience={exp.current} />
+          {:else}
+            <div>No experience</div>
+          {/if}
         </div>
 
         <div class="flex justify-end mt-auto">
@@ -80,5 +86,3 @@
     </Dialog.Content>
   </Dialog.Portal>
 </Dialog.Root>
-
-<ExperienceForm bind:this={experience_form} />

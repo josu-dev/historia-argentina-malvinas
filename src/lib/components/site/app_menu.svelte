@@ -1,9 +1,9 @@
 <script lang="ts">
-  import { DEFAULT_FONT_SIZE, DEFAULT_TTS, DEFAULT_TTS_VOLUME } from '$lib/constants.js';
-  import { mutable } from '$lib/utils.svelte.js';
-  import { Dialog, Select, Slider, Toggle } from 'bits-ui';
-  import Button from '../element/Button.svelte';
-    import { page } from '$app/state';
+  import { page } from "$app/state";
+  import { DEFAULT_FONT_SIZE, DEFAULT_TTS, DEFAULT_TTS_VOLUME } from "$lib/constants.js";
+  import { mutable } from "$lib/utils.svelte.js";
+  import { Dialog, Select, Slider, Toggle } from "bits-ui";
+  import Button from "../element/Button.svelte";
 
   type Props = {};
 
@@ -12,14 +12,14 @@
   const dialog_open = mutable(false);
 
   const font_sizes = [
-    { value: '12', label: '12' },
-    { value: '14', label: '14' },
-    { value: '16', label: '16' },
-    { value: '20', label: '20' },
-    { value: '24', label: '24' },
-    { value: '32', label: '32' },
-    { value: '48', label: '48' },
-    { value: '64', label: '64' },
+    { value: "12", label: "12" },
+    { value: "14", label: "14" },
+    { value: "16", label: "16" },
+    { value: "20", label: "20" },
+    { value: "24", label: "24" },
+    { value: "32", label: "32" },
+    { value: "48", label: "48" },
+    { value: "64", label: "64" },
   ];
 
   let font_size = $state(DEFAULT_FONT_SIZE);
@@ -28,14 +28,14 @@
 
   let tts_volume = $state(DEFAULT_TTS_VOLUME);
 
-  let current_page = $derived(page.url.pathname)
+  let current_page = $derived(page.url.pathname);
 </script>
 
 <Dialog.Root bind:open={dialog_open.get, dialog_open.set}>
-  <div class="absolute top-0 left-0 right-2 flex justify-end py-4">
+  <div class="absolute top-0 right-2 flex justify-end py-4">
     <Dialog.Trigger>
       {#snippet child({ props })}
-        <Button {...props} class="">Menu</Button>
+        <Button {...props} class="leading-none">Menu</Button>
       {/snippet}
     </Dialog.Trigger>
   </div>
@@ -59,24 +59,37 @@
 
         <div class="flex flex-col gap-4">
           <div class="flex gap-4 justify-between">
-            {@render OptionLabel('option-font-size', 'Tamaño de letra')}
+            {@render OptionLabel("option-font-size", "Tamaño de letra")}
             {@render FontSizeInput()}
           </div>
           <div class="flex flex-col gap-2">
             <div class="flex gap-4 justify-between">
-              {@render OptionLabel('option-font-size', 'Texto a voz')}
+              {@render OptionLabel("option-font-size", "Texto a voz")}
               {@render TTSToggleInput()}
             </div>
-              {@render TTSVolumeInput()}
+            {@render TTSVolumeInput()}
           </div>
         </div>
 
         <div class="mt-12">
           {#if current_page === "/"}
-            
-          <a href="/about" onclick={() => {dialog_open.set(false)}}> Acerca de </a>
+            <a
+              href="/about"
+              onclick={() => {
+                dialog_open.set(false);
+              }}
+            >
+              Acerca de
+            </a>
           {:else}
-          <a href="/" onclick={() => {dialog_open.set(false)}}> Inicio </a>
+            <a
+              href="/"
+              onclick={() => {
+                dialog_open.set(false);
+              }}
+            >
+              Inicio
+            </a>
           {/if}
         </div>
       </div>
@@ -90,7 +103,9 @@
 
 {#snippet FontSizeInput()}
   <Select.Root type="single" value={font_size} onValueChange={(v) => (font_size = v)} items={font_sizes}>
-    <Select.Trigger class="w-16 text-center -translate-y-0.5 translate-x-5 border-2 border-transparent data-[state=open]:border-bluish-dark-brown">
+    <Select.Trigger
+      class="w-16 text-center -translate-y-0.5 translate-x-5 border-2 border-transparent data-[state=open]:border-bluish-dark-brown"
+    >
       {font_size}
     </Select.Trigger>
     <Select.Portal>

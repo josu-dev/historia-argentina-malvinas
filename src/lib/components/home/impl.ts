@@ -1,19 +1,30 @@
-import type { MalvinasSection, MalvinasExperience } from '$lib/shared/malvinas.js';
+import type { NewExperienceSchema } from '$lib/server/schemas.js';
+import type * as Model from '$lib/types.js';
+import type { Infer, SuperValidated } from 'sveltekit-superforms';
 
-export interface HeventProps {
-    data: MalvinasSection;
+export interface ScrollableSectionProps<T extends Model.ScrollableSection> {
+    data: T;
     reverse: boolean;
-    on_experiences: (arg_0: MalvinasSection) => void;
+}
+
+export interface EventSectionProps extends ScrollableSectionProps<Model.EventSectionWithExperiences> {
+    on_experiences: (arg_0: Model.EventSectionWithExperiences) => void;
 }
 
 export interface ExperienceContentProps {
-    data: MalvinasExperience
+    experience: Model.EventExperience;
 }
 
 export interface ExperiencesDialogProps {
-    data: MalvinasSection['experiences'];
+    open?: boolean;
+    event?: Model.EventSectionWithExperiences;
+    on_add?: (arg_0: { id: string; }) => void;
 }
 
-// eslint-disable-next-line @typescript-eslint/no-empty-object-type
 export interface ExperienceFormProps {
+    initial?: {
+        open?: boolean;
+        event?: Model.EventSectionWithExperiences;
+    };
+    data: SuperValidated<Infer<NewExperienceSchema>>;
 }

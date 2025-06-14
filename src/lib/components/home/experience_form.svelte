@@ -1,74 +1,25 @@
 <script lang="ts">
-  import Button from '$lib/components/element/Button.svelte';
-    import Input from '$lib/components/element/Input.svelte';
-    import Textarea from '$lib/components/element/Textarea.svelte';
-  import type { ExperienceFormProps } from '$lib/components/home/impl.js';
-  import { mutable } from '$lib/utils.svelte.js';
-  import { Dialog } from 'bits-ui';
+  import Button from "$lib/components/element/Button.svelte";
+  import Input from "$lib/components/element/Input.svelte";
+  import type { ExperienceFormProps } from "$lib/components/home/impl.js";
+  import { mutable } from "$lib/utils.svelte.js";
+  import { Dialog } from "bits-ui";
+  import { Control, Field, FieldErrors, Label } from "formsnap";
+  import { superForm } from "sveltekit-superforms/client";
 
-  const {}: ExperienceFormProps = $props();
+  const { data, initial = {} }: ExperienceFormProps = $props();
 
-  const dialog_open = mutable(false);
-  let section_id: string;
+  const dialog_open = mutable(initial.open ?? true);
+  let section_id = $state("");
 
-  let form = $state({
-    title: '',
-    text: '',
-    day: '',
-    month: '',
-    year: '',
-    fullname: '',
-    perspective: '',
-  });
-
-  function reset_form() {
-    form = {
-      title: '',
-      text: '',
-      day: '',
-      month: '',
-      year: '',
-      fullname: '',
-      perspective: '',
-    };
-  }
+  const form = superForm(data);
+  const { form: form_field, submitting: form_submitting } = form;
 
   export function open_for(id: string): void {
     section_id = id;
-    reset_form();
+    form.reset();
     dialog_open.set(true);
   }
-  const sending = mutable(false);
-
-  async function send_experience() {
-    if (sending.get()) {
-      return;
-    }
-    sending.set(true);
-    fetch(`/api/events/${section_id}/experiences`, {
-      method: 'post',
-      body: JSON.stringify({
-        section_id: section_id,
-        ...$state.snapshot(form),
-      }),
-    })
-      .then((r) => {
-        if (r.ok) {
-          reset_form();
-          return;
-        }
-        console.log(r);
-      })
-      .catch((ex) => {
-        console.log(ex);
-      })
-      .finally(() => {
-        sending.set(false);
-      });
-  }
-  $effect(() => {
-  open_for('');
-  })
 </script>
 
 <Dialog.Root bind:open={dialog_open.get, dialog_open.set}>
@@ -88,45 +39,138 @@
             {/snippet}
           </Dialog.Close>
         </div>
-        <div class="overflow-y-auto pl-2 pr-2 overflow-x-clip gutter-stable scrollbar:bg-transparent scrollbar:w-2 scrollbar-thumb:bg-black/75">
+        {@render Form()}
+        <!-- <div
+          class="overflow-y-auto pl-2 pr-2 overflow-x-clip gutter-stable scrollbar:bg-transparent scrollbar:w-2 scrollbar-thumb:bg-black/75"
+        >
           <div>
             <h2 class="font-medium text-2xl">Cargar Experiencia</h2>
           </div>
-            <div class="flex flex-col gap-2 mt-2">
-              <div class="flex flex-col gap-y-1">
-                <label for="" class="font-medium">Titulo</label>
-                <Input type="text"/>
-              </div>
-              <div class="flex flex-col gap-y-1">
-                <label for="" class="font-medium">Fecha</label>
-                <Input type="text"/>
-              </div>
+          <div class="flex flex-col gap-2 mt-2">
+            <div class="flex flex-col gap-y-1">
+              <label for="" class="font-medium">Titulo</label>
+              <Input type="text" />
+            </div>
+            <div class="flex flex-col gap-y-1">
+              <label for="" class="font-medium">Fecha</label>
+              <Input type="text" />
+            </div>
 
-              <div class="flex flex-col gap-y-1">
-                <label for="" class="font-medium">Experiencia</label>
-                <Textarea />
-              </div>
+            <div class="flex flex-col gap-y-1">
+              <label for="" class="font-medium">Experiencia</label>
+              <Textarea />
+            </div>
 
-              <div class="flex flex-col gap-y-1">
-                <div>Author:</div>
-                <div class="flex gap-x-2">
-                  <div class="flex flex-col gap-y-1">
-                    <label for="" class="font-medium">Nombre</label>
-                    <Input type="text"/>
-                  </div>
-  
-                  <div class="flex flex-col gap-y-1">
-                    <label for="" class="font-medium">Perspectiva</label>
-                    <Input type="text"/>
-                  </div>
+            <div class="flex flex-col gap-y-1">
+              <div>Author:</div>
+              <div class="flex gap-x-2">
+                <div class="flex flex-col gap-y-1">
+                  <label for="" class="font-medium">Nombre</label>
+                  <Input type="text" />
+                </div>
+
+                <div class="flex flex-col gap-y-1">
+                  <label for="" class="font-medium">Perspectiva</label>
+                  <Input type="text" />
                 </div>
               </div>
             </div>
+          </div>
           <div class="flex justify-end mt-auto">
             <Button onclick={send_experience} disabled={sending.get()}>Enviar</Button>
           </div>
-        </div>
+        </div> -->
       </div>
     </Dialog.Content>
   </Dialog.Portal>
 </Dialog.Root>
+
+{#snippet Form()}
+  <form
+    method="post"
+    action="?/new_experience"
+    use:form.enhance
+    class="overflow-y-auto pl-2 pr-2 overflow-x-clip gutter-stable scrollbar:bg-transparent scrollbar:w-2 scrollbar-thumb:bg-black/75"
+  >
+    <div>
+      <h2 class="font-medium text-2xl">Cargar Experiencia</h2>
+    </div>
+    <div class="flex flex-col gap-2 mt-2">
+      <Field {form} name="event_id">
+        <Control>
+          {#snippet children({ props })}
+            <Label>Titulo</Label>
+            <Input type="hidden" value={section_id} {...props} />
+          {/snippet}
+        </Control>
+        <FieldErrors />
+      </Field>
+      <Field {form} name="title">
+        <Control>
+          {#snippet children({ props })}
+            <Label>Titulo</Label>
+            <Input type="text" bind:value={$form_field.title} {...props} />
+          {/snippet}
+        </Control>
+        <FieldErrors />
+      </Field>
+      <Field {form} name="date">
+        <Control>
+          {#snippet children({ props })}
+            <Label>Fecha</Label>
+            <Input type="text" bind:value={$form_field.date} {...props} />
+          {/snippet}
+        </Control>
+        <FieldErrors />
+      </Field>
+      <Field {form} name="content">
+        <Control>
+          {#snippet children({ props })}
+            <Label>Experiencia</Label>
+            <Input type="text" bind:value={$form_field.content} {...props} />
+          {/snippet}
+        </Control>
+        <FieldErrors />
+      </Field>
+      <Field {form} name="author_fullname">
+        <Control>
+          {#snippet children({ props })}
+            <Label>Nombre completo</Label>
+            <Input type="text" bind:value={$form_field.author_fullname} {...props} />
+          {/snippet}
+        </Control>
+        <FieldErrors />
+      </Field>
+      <Field {form} name="author_perspective">
+        <Control>
+          {#snippet children({ props })}
+            <Label>Perspetiva o rol</Label>
+            <Input type="text" bind:value={$form_field.author_perspective} {...props} />
+          {/snippet}
+        </Control>
+        <FieldErrors />
+      </Field>
+      <Field {form} name="author_website">
+        <Control>
+          {#snippet children({ props })}
+            <Label>Pagina web</Label>
+            <Input type="url" bind:value={$form_field.author_website} {...props} />
+          {/snippet}
+        </Control>
+        <FieldErrors />
+      </Field>
+      <Field {form} name="author_email">
+        <Control>
+          {#snippet children({ props })}
+            <Label>Email de contacto</Label>
+            <Input type="text" bind:value={$form_field.author_email} {...props} />
+          {/snippet}
+        </Control>
+        <FieldErrors />
+      </Field>
+    </div>
+    <div class="flex justify-end mt-auto">
+      <Button>Enviar</Button>
+    </div>
+  </form>
+{/snippet}

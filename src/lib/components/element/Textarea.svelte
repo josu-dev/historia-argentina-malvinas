@@ -1,9 +1,7 @@
 <script lang="ts">
-  import type { Snippet } from 'svelte';
-  import type { HTMLTextareaAttributes } from 'svelte/elements';
+  import type { HTMLTextareaAttributes } from "svelte/elements";
 
-  type Props = {
-  } & HTMLTextareaAttributes;
+  type Props = {} & HTMLTextareaAttributes;
 
   let { children, class: classes, ...rest_props }: Props = $props();
 </script>
