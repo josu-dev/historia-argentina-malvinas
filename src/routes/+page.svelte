@@ -4,6 +4,7 @@
   import Hero from "$lib/components/home/hero.svelte";
   import EventSection from "$lib/components/home/section.svelte";
   import Main from "$lib/components/site/main.svelte";
+  import Metadata from "$lib/components/site/metadata.svelte";
   import type * as Model from "$lib/types.js";
   import { untrack } from "svelte";
   import type { PageData } from "./$types.js";
@@ -19,6 +20,10 @@
 
   let experience_form: ExperienceForm;
 </script>
+
+<Metadata
+  description="Este proyecto explora la Guerra de Malvinas desde una perspectiva renovada y accesible. Descubre cronologías, hechos y testimonios a través de un diseño UX inmersivo y una experiencia responsiva."
+/>
 
 <Main class="max-w-6xl mx-auto">
   <Hero />

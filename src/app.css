@@ -2,7 +2,7 @@
 @import "tw-animate-css";
 @import "./styles/fonts.css";
 @import "./styles/theme.css";
-@import "./styles/accessibility.css";
+@import "./styles/text.css";
 @import "./styles/utilities.css";
 
 @layer base {
@@ -16,7 +16,7 @@
 
   [data-font="opendyslexic"] { @apply font-opendyslexic; }
 
-  /* font sizes */
+  /* font size */
   
   [data-font-size="12"] { @apply text-xs; }
 

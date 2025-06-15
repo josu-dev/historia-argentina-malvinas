@@ -1,9 +1,5 @@
 @custom-variant dark (&:is(.dark *));
 
-@utility gutter-stable {
-  scrollbar-gutter: stable;
-}
-
 @custom-variant scrollbar {
   &::-webkit-scrollbar {
     @slot;
@@ -26,6 +22,10 @@
   &::-webkit-scrollbar-thumb:hover, &::-webkit-scrollbar-thumb:active {
     @slot;
   }
+}
+
+@utility gutter-stable {
+  scrollbar-gutter: stable;
 }
 
 @utility outline-dev {

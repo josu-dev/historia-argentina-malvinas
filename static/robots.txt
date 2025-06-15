@@ -1,0 +1,4 @@
+User-agent: *
+Disallow:
+
+Sitemap: https://malvinas-argentinas.vercel.app/sitemap.xml

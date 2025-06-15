@@ -1,9 +1,16 @@
 <script lang="ts">
+  import Main from "$lib/components/site/main.svelte";
+  import Metadata from "$lib/components/site/metadata.svelte";
   import { Button } from "$lib/components/ui/button/index.js";
   import * as Card from "$lib/components/ui/card/index.js";
 </script>
 
-<div class="flex h-screen w-full items-center justify-center px-4">
+<Metadata
+  title="Inicar Sesion"
+  description="Reservado solo para administradores. Iniciá sesión con tu cuenta de administrador para gestionar el contenido"
+/>
+
+<Main class="flex h-screen w-full items-center justify-center px-4">
   <Card.Root class="mx-auto w-full max-w-sm">
     <Card.Header>
       <Card.Title>
@@ -26,4 +33,4 @@
       </div>
     </Card.Content>
   </Card.Root>
-</div>
+</Main>

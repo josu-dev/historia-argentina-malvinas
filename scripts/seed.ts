@@ -12,9 +12,6 @@ async function main() {
     await seed_experience_rejected(db);
     await seed_experience_approved(db);
 
-    if (!process.env.DATABASE_URL?.startsWith('file:')) {
-        await db.$client.sync();
-    }
     db.$client.close();
 }
 

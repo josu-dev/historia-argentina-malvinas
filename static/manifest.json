@@ -1,0 +1,20 @@
+{
+  "background_color": "#3f2421",
+  "description": "TODO.",
+  "dir": "ltr",
+  "display": "standalone",
+  "display_override": [
+    "standalone",
+    "minimal-ui",
+    "browser"
+  ],
+  "id": "/v1/launch",
+  "lang": "es",
+  "name": "Historia Argentina Malvinas",
+  "orientation": "portrait",
+  "short_name": "Malvinas",
+  "start_url": "/",
+  "theme_color": "#3f2421",
+  "icons": [],
+  "screenshots": []
+}

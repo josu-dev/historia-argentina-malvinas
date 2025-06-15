@@ -1,14 +1,9 @@
 <script lang="ts">
   import { page } from "$app/state";
-  import {
-    DEFAULT_FONT_FAMILY,
-    DEFAULT_FONT_SIZE,
-    DEFAULT_GRAPHICS_VISIBILITY,
-    DEFAULT_LINE_HEIGHT,
-  } from "$lib/constants.js";
+  import Button from "$lib/components/element/Button.svelte";
+  import { DEFAULT_SITE_USER_PREFERS } from "$lib/constants.js";
   import { mutable } from "$lib/utils.svelte.js";
   import { Dialog, Select, Toggle } from "bits-ui";
-  import Button from "../element/Button.svelte";
 
   type Props = {};
 
@@ -16,14 +11,73 @@
 
   const dialog_open = mutable(false);
 
+  type SiteUserPreferences = {
+    font_family: string;
+    font_size: string;
+    line_height: string;
+    graphics_visible: boolean;
+  };
+
+  function get_site_user_preferences(): SiteUserPreferences {
+    if (typeof localStorage === undefined) {
+      return { ...DEFAULT_SITE_USER_PREFERS };
+    }
+    let value = null;
+    try {
+      value = JSON.parse(localStorage.getItem("config") ?? "null");
+    } catch {}
+    if (
+      typeof value !== "object" ||
+      value == null ||
+      !("font_family" in value && "font_size" in value && "line_height" in value && "graphics_visible" in value)
+    ) {
+      return { ...DEFAULT_SITE_USER_PREFERS };
+    }
+    return {
+      font_family: value.font_family,
+      font_size: value.font_size,
+      line_height: value.line_height,
+      graphics_visible: value.graphics_visible,
+    };
+  }
+
+  function save_site_user_preferences(): void {
+    localStorage.setItem("config", JSON.stringify($state.snapshot(preferences)));
+  }
+
+  const preferences = $state(get_site_user_preferences());
+
+  function set_preference<K extends keyof SiteUserPreferences>(key: K, value: SiteUserPreferences[K]): void {
+    preferences[key] = value;
+    switch (key) {
+      case "font_family": {
+        document.documentElement.setAttribute("data-font", value as string);
+        break;
+      }
+      case "font_size": {
+        document.documentElement.setAttribute("data-font-size", value as string);
+        break;
+      }
+      case "line_height": {
+        document.documentElement.setAttribute("data-line-height", value as string);
+        break;
+      }
+      case "graphics_visible": {
+        if (value) {
+          document.documentElement.removeAttribute("data-hide-graphics");
+        } else {
+          document.documentElement.setAttribute("data-hide-graphics", "");
+        }
+        break;
+      }
+    }
+    save_site_user_preferences();
+  }
+
   const font_families = [
     { value: "lexend", label: "Lexend" },
     { value: "opendyslexic", label: "Open Dyslexic" },
   ];
-  let font_family = $state(DEFAULT_FONT_FAMILY);
-  $effect(() => {
-    document.documentElement.dataset.font = font_family;
-  });
 
   const font_sizes = [
     { value: "12", label: "12 pt" },
@@ -34,10 +88,6 @@
     { value: "24", label: "24 pt" },
     { value: "36", label: "36 pt" },
   ];
-  let font_size = $state(DEFAULT_FONT_SIZE);
-  $effect(() => {
-    document.documentElement.dataset.fontSize = font_size;
-  });
 
   const line_heights = [
     { value: "1", label: "1" },
@@ -46,22 +96,32 @@
     { value: "1.75", label: "1.75" },
     { value: "2", label: "2" },
   ];
-  let line_height = $state(DEFAULT_LINE_HEIGHT);
-  $effect(() => {
-    document.documentElement.dataset.lineHeight = line_height;
-  });
-
-  let graphics_visibility = $state(DEFAULT_GRAPHICS_VISIBILITY);
-  $effect(() => {
-    if (graphics_visibility) {
-      delete document.documentElement.dataset.hideGraphics;
-    } else {
-      document.documentElement.dataset.hideGraphics = "";
-    }
-  });
 
   let current_page = $derived(page.url.pathname);
 </script>
+
+<svelte:head>
+  {@html `<script>(function initialize_from_local_storage() {
+  const stored = localStorage.getItem("config") ?? "{}";
+  const value = JSON.parse(stored);
+  if (value.font_family) {
+    document.documentElement.setAttribute("data-font", value.font_family);
+  }
+  if (value.font_size) {
+    document.documentElement.setAttribute("data-font-size", value.font_size);
+  }
+  if ("graphics_visible" in value) {
+    if (value.graphics_visible) {
+      document.documentElement.removeAttribute("data-hide-graphics");
+    } else {
+      document.documentElement.setAttribute("data-hide-graphics", "");
+    }
+  }
+  if (value.line_height) {
+    document.documentElement.setAttribute("data-line-height", value.line_height);
+  }
+})();</script>`}
+</svelte:head>
 
 <Dialog.Root bind:open={dialog_open.get, dialog_open.set}>
   <div class="absolute top-0 right-2 flex justify-end py-4">
@@ -139,11 +199,16 @@
 {/snippet}
 
 {#snippet FontFamilyInput()}
-  <Select.Root type="single" value={font_family} onValueChange={(v) => (font_family = v)} items={font_families}>
+  <Select.Root
+    type="single"
+    value={preferences.font_family}
+    onValueChange={(v) => set_preference("font_family", v)}
+    items={font_families}
+  >
     <Select.Trigger
       class="w-[14ch] text-center -translate-y-0.5 translate-x-5 border-2 border-transparent data-[state=open]:border-bluish-dark-brown"
     >
-      {font_families.find((f) => f.value === font_family)?.label}
+      {font_families.find((f) => f.value === preferences.font_family)?.label}
     </Select.Trigger>
     <Select.Portal>
       <Select.Content
@@ -155,7 +220,7 @@
       >
         {#each font_families as theme (theme.value)}
           <Select.Item
-            class="text-bluish-dark-brown cursor-pointer data-selected:bg-bluish-dark-brown data-selected:text-greenish-white data-highlighted:!bg-pale-grass w-full px-2"
+            class="text-bluish-dark-brown cursor-pointer data-selected:bg-bluish-dark-brown data-selected:text-greenish-white data-highlighted:!bg-pale-grass w-full"
             value={theme.value}
             label={theme.label}
           >
@@ -170,11 +235,16 @@
 {/snippet}
 
 {#snippet FontSizeInput()}
-  <Select.Root type="single" value={font_size} onValueChange={(v) => (font_size = v)} items={font_sizes}>
+  <Select.Root
+    type="single"
+    value={preferences.font_size}
+    onValueChange={(v) => set_preference("font_size", v)}
+    items={font_sizes}
+  >
     <Select.Trigger
-      class="w-18 text-center -translate-y-0.5 translate-x-5 border-2 border-transparent data-[state=open]:border-bluish-dark-brown"
+      class="w-20 text-center -translate-y-0.5 translate-x-5 border-2 border-transparent data-[state=open]:border-bluish-dark-brown"
     >
-      {font_size}
+      {preferences.font_size}
     </Select.Trigger>
     <Select.Portal>
       <Select.Content
@@ -186,7 +256,7 @@
       >
         {#each font_sizes as theme (theme.value)}
           <Select.Item
-            class="text-bluish-dark-brown cursor-pointer data-selected:bg-bluish-dark-brown data-selected:text-greenish-white data-highlighted:!bg-pale-grass w-full px-2"
+            class="text-bluish-dark-brown cursor-pointer data-selected:bg-bluish-dark-brown data-selected:text-greenish-white data-highlighted:!bg-pale-grass w-full"
             value={theme.value}
             label={theme.label}
           >
@@ -201,11 +271,16 @@
 {/snippet}
 
 {#snippet LineHeightInput()}
-  <Select.Root type="single" value={line_height} onValueChange={(v) => (line_height = v)} items={line_heights}>
+  <Select.Root
+    type="single"
+    value={preferences.line_height}
+    onValueChange={(v) => set_preference("line_height", v)}
+    items={line_heights}
+  >
     <Select.Trigger
-      class="w-18 text-center -translate-y-0.5 translate-x-5 border-2 border-transparent data-[state=open]:border-bluish-dark-brown"
+      class="w-20 text-center -translate-y-0.5 translate-x-5 border-2 border-transparent data-[state=open]:border-bluish-dark-brown"
     >
-      {line_height}
+      {preferences.line_height}
     </Select.Trigger>
     <Select.Portal>
       <Select.Content
@@ -217,7 +292,7 @@
       >
         {#each line_heights as theme (theme.value)}
           <Select.Item
-            class="text-bluish-dark-brown cursor-pointer data-selected:bg-bluish-dark-brown data-selected:text-greenish-white data-highlighted:!bg-pale-grass w-full px-2"
+            class="text-bluish-dark-brown cursor-pointer data-selected:bg-bluish-dark-brown data-selected:text-greenish-white data-highlighted:!bg-pale-grass w-full"
             value={theme.value}
             label={theme.label}
           >
@@ -233,8 +308,11 @@
 
 {#snippet GraphicsVisibilityInput()}
   <div class="">
-    <Toggle.Root class="uppercase w-18 translate-x-5" bind:pressed={graphics_visibility}>
-      {#if graphics_visibility}
+    <Toggle.Root
+      class="uppercase w-20 translate-x-5"
+      bind:pressed={() => preferences.graphics_visible, (v) => set_preference("graphics_visible", v)}
+    >
+      {#if preferences.graphics_visible}
         Si
       {:else}
         No

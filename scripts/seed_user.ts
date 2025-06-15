@@ -23,9 +23,6 @@ async function main() {
         console.debug(ex);
     } finally {
         rl.close();
-        if (!process.env.DATABASE_URL?.startsWith('file:')) {
-            await db.$client.sync();
-        }
         db.$client.close();
     }
 }
