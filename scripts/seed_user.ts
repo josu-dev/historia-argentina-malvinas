@@ -1,6 +1,6 @@
 import { stdin as input, stdout as output } from 'node:process';
 import readline from 'node:readline/promises';
-import { db, t } from './db.ts';
+import { db, t } from './db.js';
 
 async function main() {
     const rl = readline.createInterface({ input, output });

@@ -1,7 +1,7 @@
 import type { Table } from "drizzle-orm";
 import * as events from '../src/lib/data/events.js';
-import type { Database } from './db.ts';
-import { db, t } from './db.ts';
+import type { Database } from './db.js';
+import { db, t } from './db.js';
 
 async function main() {
     await reset_tables(db, Object.values(t));
