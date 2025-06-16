@@ -25,7 +25,7 @@
   <div class="w-1/2">
     <div class="py-16 px-4">
       <h2 class="text-4xl font-bold text-pretty text-pale-yellow">{data.title}</h2>
-      <div class="space-y-[1lh] mt-[1lh] text-xl text- *:indent-[0.5ch]">
+      <div class="space-y-[1lh] mt-[1lh] text-xl whitespace-pre-line">
         <p>{data.content}</p>
       </div>
     </div>

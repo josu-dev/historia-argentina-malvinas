@@ -1,5 +1,5 @@
 <div class="h-screen leading-loose">
-  <h1 class="text-6xl flex flex-col justify-center text-center font-bold h-full text-bluish-white">
+  <h1 class="text-6xl gap-[0.5lh] flex flex-col justify-center text-center font-bold h-full text-bluish-white">
     <span>Historia Argentina</span>
     <span>Malvinas</span>
   </h1>

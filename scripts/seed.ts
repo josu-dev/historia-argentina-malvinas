@@ -42,7 +42,7 @@ async function seed_experience_approved(db: Database) {
 export const mock_experience_data = [
     {
         id: 'exp_1_ai_impact',
-        event_id: 'event_1',
+        event_id: 'desembarco-argentina-en-georgias',
         title: 'Impact of AI on Daily Life',
         date: '2024-01-16',
         content: 'Attended a fascinating panel discussion on the pervasive influence of AI on our daily routines, from smart assistants to personalized recommendations. The ethical implications were particularly thought-provoking.',
@@ -55,7 +55,7 @@ export const mock_experience_data = [
     },
     {
         id: 'exp_2_react_hooks',
-        event_id: 'event_2',
+        event_id: 'tension-diplomatica-por-presencia-en-leith',
         title: 'Mastering React Hooks',
         date: '2024-03-21',
         content: 'Participated in a hands-on workshop about advanced React Hooks. Learned about custom hooks, context API integration, and performance optimizations. A game-changer for front-end development!',
@@ -68,7 +68,7 @@ export const mock_experience_data = [
     },
     {
         id: 'exp_3_renewable_energy',
-        event_id: 'event_3',
+        event_id: 'retiro-del-ara-bahia-buen-suceso-y-movimientos-britanicos',
         title: 'Innovations in Renewable Energy',
         date: '2024-05-02',
         content: 'Attended a presentation on the latest breakthroughs in solar and wind energy technologies. Exciting progress is being made in efficiency and storage solutions, paving the way for a greener future.',
@@ -81,7 +81,7 @@ export const mock_experience_data = [
     },
     {
         id: 'exp_4_mars_colonization',
-        event_id: 'event_4',
+        event_id: 'prensa-britanica-califica-invasion',
         title: 'Challenges of Mars Colonization',
         date: '2024-06-11',
         content: 'Listened to a captivating lecture on the engineering and biological hurdles of establishing a sustainable human presence on Mars. The challenges are immense, but the vision is inspiring.',
@@ -94,7 +94,7 @@ export const mock_experience_data = [
     },
     {
         id: 'exp_5_content_marketing',
-        event_id: 'event_1',
+        event_id: 'desembarco-argentina-en-georgias',
         title: 'Effective Content Marketing',
         date: '2024-07-06',
         content: 'Gained valuable insights into crafting compelling content and optimizing it for various digital platforms. The session on SEO best practices was particularly helpful.',
@@ -107,7 +107,7 @@ export const mock_experience_data = [
     },
     {
         id: 'exp_6_phishing_detection',
-        event_id: 'event_2',
+        event_id: 'tension-diplomatica-por-presencia-en-leith',
         title: 'Advanced Phishing Detection',
         date: '2024-08-13',
         content: 'Learned about the latest techniques used in phishing attacks and practical strategies for detection and prevention. The live demonstration of a sophisticated phishing attempt was eye-opening.',
@@ -120,7 +120,7 @@ export const mock_experience_data = [
     },
     {
         id: 'exp_7_quantum_computing',
-        event_id: 'event_1', // Another experience for Event 1
+        event_id: 'desembarco-argentina-en-georgias',
         title: 'Quantum Computing Breakthroughs',
         date: '2024-01-17',
         content: 'Attended a parallel session focusing on recent advancements in quantum computing. The potential for future technological disruption is immense.',
@@ -133,7 +133,7 @@ export const mock_experience_data = [
     },
     {
         id: 'exp_8_css_grid',
-        event_id: 'event_2', // Another experience for Event 2
+        event_id: 'tension-diplomatica-por-presencia-en-leith',
         title: 'CSS Grid Layouts Deep Dive',
         date: '2024-03-22',
         content: 'Explored the intricacies of CSS Grid for responsive and complex layouts. Many practical examples and best practices were shared.',
