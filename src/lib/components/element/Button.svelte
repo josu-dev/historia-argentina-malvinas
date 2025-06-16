@@ -1,14 +1,24 @@
 <script lang="ts">
   import type { Snippet } from "svelte";
-  import type { HTMLButtonAttributes } from "svelte/elements";
+  import type { HTMLAnchorAttributes, HTMLButtonAttributes, MouseEventHandler } from "svelte/elements";
 
   type Props = {
     children: Snippet;
-  } & HTMLButtonAttributes;
+  } & (
+    | ({ href: string } & HTMLAnchorAttributes)
+    | ( HTMLButtonAttributes)
+  );
 
-  let { children, class: classes, ...rest_props }: Props = $props();
+  let { children, class: classes, ...restprops }: Props = $props();
+  let c = $derived("uppercase font-medium px-2 py-1.5 disabled:opacity-75 " + classes);
 </script>
 
-<button {...rest_props} class="uppercase font-medium px-2 py-1.5 disabled:opacity-75 {classes}">
-  {@render children()}
-</button>
+{#if "href" in restprops}
+  <a {...restprops} class={c}>
+    {@render children()}
+  </a>
+{:else}
+  <button {...restprops} class={c}>
+    {@render children()}
+  </button>
+{/if}

@@ -124,10 +124,10 @@
 </svelte:head>
 
 <Dialog.Root bind:open={dialog_open.get, dialog_open.set}>
-  <div class="absolute top-0 right-2 flex justify-end py-4">
+  <div class="fixed top-0 right-0 z-10 flex justify-end py-4 px-2">
     <Dialog.Trigger>
       {#snippet child({ props })}
-        <Button {...props} class="leading-none">Menu</Button>
+        <Button {...props} class="leading-none bg-bluish-dark-brown/80">Menu</Button>
       {/snippet}
     </Dialog.Trigger>
   </div>

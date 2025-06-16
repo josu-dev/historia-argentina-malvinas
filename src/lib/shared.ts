@@ -14,13 +14,13 @@ function make_detailed_image({ src, width = 512, height = 512, alt }: Model.Deta
     return out;
 }
 
-function make_detailed_date(utc_date: string): Model.DetailedDate {
-    const date = new Date(utc_date);
+function make_detailed_date(yymmdd: string): Model.DetailedDate {
+    const [year, month, day] = yymmdd.split('-')
     const out: Model.DetailedDate = {
-        utc: utc_date,
-        day: date.getDay(),
-        month: date.getMonth(),
-        year: date.getFullYear()
+        utc: yymmdd,
+        day: parseInt(day),
+        month: parseInt(month),
+        year: parseInt(year)
     };
     return out;
 }

@@ -53,3 +53,25 @@ export function mutable<T>(value: T): Mutable<T> {
 
     return { get, set };
 }
+
+export function string_to_number(str: unknown, min: number, max: number) {
+    if (typeof str !== 'string') {
+        return undefined;
+    }
+    const num = parseInt(str, 10);
+    if (isNaN(num) || num < min || num > max) {
+        return undefined;
+    }
+    return num;
+}
+
+export function sp_with(url: URL, key: string, value: string | boolean | number | undefined) {
+    const sp = new URLSearchParams(url.search);
+    if (value === undefined) {
+        sp.delete(key);
+    }
+    else {
+        sp.set(key, value.toString());
+    }
+    return sp;
+}
