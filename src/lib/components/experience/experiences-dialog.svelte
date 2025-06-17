@@ -5,14 +5,20 @@
 <script lang="ts">
   import { page } from "$app/state";
   import Button from "$lib/components/element/Button.svelte";
-  import ExperienceContent from "$lib/components/home/experience_content.svelte";
-  import { EXPERIENCE_FORM_SPK } from "$lib/components/home/experience_form.svelte";
-  import type { ExperiencesDialogProps } from "$lib/components/home/impl.js";
   import type * as Model from "$lib/types.js";
   import { mutable, sp_with, string_to_number } from "$lib/utils.svelte.js";
   import { Dialog } from "bits-ui";
+  import ExperienceContent from "./experience-content.svelte";
+  import { EXPERIENCE_FORM_SPK } from "./experience-form-dialog.svelte";
 
-  const { initial = {}, on_add }: ExperiencesDialogProps = $props();
+  type Props = {
+    initial?: {
+      open?: boolean;
+      event?: Model.EventSectionWithExperiences;
+    };
+    on_new_experience: (event: { id: string }) => void;
+  };
+  const { initial = {}, on_new_experience }: Props = $props();
 
   const dialog_open = mutable(initial.open ?? false);
   let event = $derived(initial.event);
@@ -40,10 +46,10 @@
   // svelte-ignore state_referenced_locally
   const add_href = `?${sp_with(page.url, EXPERIENCE_FORM_SPK, "")}#${event?.id}`;
   function handle_add() {
-    if (event === undefined || on_add === undefined) {
+    if (event === undefined) {
       return;
     }
-    on_add({ id: event.id });
+    on_new_experience({ id: event.id });
   }
 
   function handle_prev() {
@@ -75,13 +81,13 @@
       class="fixed left-[50%] top-[50%] z-50 w-full max-w-[calc(100%-1rem)] sm:max-w-[min(80%,64rem)] translate-x-[-50%] translate-y-[-50%] flex flex-col
       data-[state=open]:animate-in data-[state=closed]:animate-out data-[state=closed]:fade-out-0 data-[state=open]:fade-in-0 data-[state=closed]:zoom-out-95 data-[state=open]:zoom-in-95"
     >
-      <div class="h-[75vh] bg-orange-200 text-bluish-dark-brown py-6 px-4 flex flex-col gap-4">
+      <div class="h-[80vh] bg-orange-200 text-bluish-dark-brown py-6 px-4 flex flex-col gap-4">
         <div class="flex justify-between">
           <Button href={add_href} class="js:hidden">Agregar</Button>
           <Button onclick={handle_add} class="not-js:hidden">Agregar</Button>
           <Dialog.Close>
             {#snippet child({ props })}
-              <Button href="?#{event?.id}" {...props} class="js:hidden">Cerrar</Button>
+              <Button {...props} href="?#{event?.id}" class="js:hidden">Cerrar</Button>
               <Button {...props} class="not-js:hidden">Cerrar</Button>
             {/snippet}
           </Dialog.Close>
@@ -89,9 +95,9 @@
 
         <div class="overflow-hidden">
           {#if exp.current}
-            <ExperienceContent experience={exp.current} />
+            <ExperienceContent data={exp.current} />
           {:else}
-            <div>No experience</div>
+            <div class="p-2 text-lg">Ninguna experiencia fue agregada para este suceso.</div>
           {/if}
         </div>
 

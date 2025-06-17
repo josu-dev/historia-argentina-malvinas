@@ -1,6 +1,6 @@
 <script lang="ts">
   import { enhance } from "$app/forms";
-  import ExperiencesDialog from "$lib/components/home/experiences_dialog.svelte";
+  import ExperiencesDialog from "$lib/components/experience/experiences-dialog.svelte";
   import Main from "$lib/components/site/main.svelte";
   import { Button } from "$lib/components/ui/button/index.js";
   import type { T } from "$lib/server/db/index.js";
@@ -48,4 +48,4 @@
   <RejectedSection {events_titles} rejecteds={rejected_requests} />
 </Main>
 
-<ExperiencesDialog bind:this={experiences_dialog} />
+<ExperiencesDialog bind:this={experiences_dialog} on_new_experience={() => {}} />

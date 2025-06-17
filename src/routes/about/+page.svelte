@@ -1,9 +1,8 @@
 <script lang="ts">
+  import * as Scrollable from "$lib/components/scrollable/index.js";
   import Main from "$lib/components/site/main.svelte";
   import Metadata from "$lib/components/site/metadata.svelte";
   import type { PageData } from "./$types.js";
-  import Section from "./section.svelte";
-  import Hero from "./hero.svelte";
 
   const { data }: { data: PageData } = $props();
 </script>
@@ -14,12 +13,27 @@
 />
 
 <Main class="max-w-6xl mx-auto">
-  <Hero />
+  <Scrollable.Hero>
+    <span>Acerca De</span>
+  </Scrollable.Hero>
   <div class="">
     {#each data.sections as section, i (section.id)}
-      {@const reverse = i % 2 === 1}
-      <Section data={section} {reverse} />
-      <div class="w-1/6 mx-auto h-96"></div>
+      <Scrollable.Root {i}>
+        {#snippet slot_image()}
+          <div class="h-[50vh]">
+            <img
+              src={section.img.src}
+              alt={section.img.alt ?? `Imagen ilustrativa para la sección de ${section.title}.`}
+              class="w-full h-full object-cover"
+            />
+          </div>
+        {/snippet}
+        {#snippet slot_content()}
+          <Scrollable.Title id={section.id}>{section.title}</Scrollable.Title>
+          <Scrollable.Content content={section.content}></Scrollable.Content>
+        {/snippet}
+      </Scrollable.Root>
+      <div class="w-1/6 mx-auto h-[40vh]"></div>
     {/each}
   </div>
 </Main>

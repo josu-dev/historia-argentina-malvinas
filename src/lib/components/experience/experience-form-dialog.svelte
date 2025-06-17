@@ -6,13 +6,23 @@
   import { page } from "$app/state";
   import Button from "$lib/components/element/Button.svelte";
   import Input from "$lib/components/element/Input.svelte";
-  import type { ExperienceFormProps } from "$lib/components/home/impl.js";
+  import type { NewExperienceSchema } from "$lib/server/schemas.js";
+  import type * as Model from "$lib/types.js";
   import { mutable, sp_with } from "$lib/utils.svelte.js";
   import { Dialog } from "bits-ui";
   import { Control, Field, FieldErrors, Label } from "formsnap";
+  import type { Infer, SuperValidated } from "sveltekit-superforms";
   import { superForm } from "sveltekit-superforms/client";
 
-  const { data, initial = {} }: ExperienceFormProps = $props();
+  type Props = {
+    initial?: {
+      open?: boolean;
+      event?: Model.EventSectionWithExperiences;
+    };
+    data: SuperValidated<Infer<NewExperienceSchema>>;
+  };
+
+  const { data, initial = {} }: Props = $props();
 
   const initial_open = initial.open ?? false;
   const initial_event_id = initial.event?.id;
@@ -41,7 +51,7 @@
       class="fixed left-[50%] top-[50%] z-50 w-full max-w-[calc(100%-1rem)] sm:max-w-[min(80%,64rem)] translate-x-[-50%] translate-y-[-50%] flex flex-col
       data-[state=open]:animate-in data-[state=closed]:animate-out data-[state=closed]:fade-out-0 data-[state=open]:fade-in-0 data-[state=closed]:zoom-out-95 data-[state=open]:zoom-in-95"
     >
-      <div class="h-[75vh] bg-orange-200 text-bluish-dark-brown py-6 px-4 flex flex-col">
+      <div class="h-[80vh] bg-orange-200 text-bluish-dark-brown py-6 px-4 flex flex-col">
         <div class="flex justify-end">
           <Dialog.Close>
             {#snippet child({ props })}
