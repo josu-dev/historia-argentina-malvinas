@@ -7,7 +7,7 @@
 
 @layer base {
   * {
-    @apply border-border outline-ring/50;
+    @apply border-border outline-sky-500 outline-offset-1;
   }
 
   /* font family */
@@ -58,10 +58,16 @@
   }
 
   a, button, input {
-    @apply cursor-pointer;
+    @apply cursor-pointer focus-visible:outline-2 focus-visible:ring-0;
   }
 
   button:disabled, input:disabled {
     @apply cursor-not-allowed;
+  }
+}
+
+@layer components {
+  .link {
+    @apply underline underline-offset-2;
   }
 }

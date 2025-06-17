@@ -1,13 +1,10 @@
 <script lang="ts">
   import type { Snippet } from "svelte";
-  import type { HTMLAnchorAttributes, HTMLButtonAttributes, MouseEventHandler } from "svelte/elements";
+  import type { HTMLAnchorAttributes, HTMLButtonAttributes } from "svelte/elements";
 
   type Props = {
     children: Snippet;
-  } & (
-    | ({ href: string } & HTMLAnchorAttributes)
-    | ( HTMLButtonAttributes)
-  );
+  } & (({ href: string } & HTMLAnchorAttributes) | HTMLButtonAttributes);
 
   let { children, class: classes, ...restprops }: Props = $props();
   let c = $derived("uppercase font-medium px-2 py-1.5 disabled:opacity-75 " + classes);

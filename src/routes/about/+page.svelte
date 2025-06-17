@@ -15,6 +15,7 @@
 <Main class="max-w-6xl mx-auto">
   <Scrollable.Hero>
     <span>Acerca De</span>
+    <p class="text-2xl font-normal mt-[2lh]">Información sobre el ¿por qué?, ¿cómo? y ¿con qué? se implemento el sitio</p>
   </Scrollable.Hero>
   <div class="">
     {#each data.sections as section, i (section.id)}

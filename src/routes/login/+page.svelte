@@ -22,14 +22,14 @@
     </Card.Header>
     <Card.Content>
       <div class="grid gap-4 py-4">
-        <Button variant="outline" href="/login/google" class="w-full no-underline">
+        <Button variant="outline" href="/login/google" class="w-full">
           <span class="font-light text-2xl leading-none mr-2">G</span>
-          <span class="underline"> Iniciar sesión con Google </span>
+          <span class="link"> Iniciar sesión con Google </span>
         </Button>
       </div>
       <div class="mt-4 text-center text-sm">
         ¿No eres administrador?
-        <a href="/" class="underline"> Ir al inicio </a>
+        <a href="/" class="link"> Ir al inicio </a>
       </div>
     </Card.Content>
   </Card.Root>

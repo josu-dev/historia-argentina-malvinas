@@ -34,6 +34,7 @@
   <Scrollable.Hero>
     <span>Historia Argentina</span>
     <span>Malvinas</span>
+    <p class="text-2xl font-normal mt-[2lh]">Cronología narrativa de los sucesos y eventos ocurridos durante la Guerra de Malvinas</p>
   </Scrollable.Hero>
   <div class="">
     {#each data.sections as section, i (section.id)}

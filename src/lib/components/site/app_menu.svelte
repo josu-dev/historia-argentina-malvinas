@@ -80,13 +80,13 @@
   ];
 
   const font_sizes = [
-    { value: "12", label: "12 pt" },
-    { value: "14", label: "14 pt" },
-    { value: "16", label: "16 pt" },
-    { value: "18", label: "18 pt" },
-    { value: "20", label: "20 pt" },
-    { value: "24", label: "24 pt" },
-    { value: "36", label: "36 pt" },
+    { value: "12", label: "12" },
+    { value: "14", label: "14" },
+    { value: "16", label: "16" },
+    { value: "18", label: "18" },
+    { value: "20", label: "20" },
+    { value: "24", label: "24" },
+    { value: "36", label: "36" },
   ];
 
   const line_heights = [
@@ -175,6 +175,7 @@
               onclick={() => {
                 dialog_open.set(false);
               }}
+              class="link"
             >
               Acerca de
             </a>
@@ -184,6 +185,7 @@
               onclick={() => {
                 dialog_open.set(false);
               }}
+              class="link"
             >
               Inicio
             </a>
@@ -242,7 +244,7 @@
     items={font_sizes}
   >
     <Select.Trigger
-      class="w-20 text-center -translate-y-0.5 translate-x-5 border-2 border-transparent data-[state=open]:border-bluish-dark-brown"
+      class="w-18 text-center -translate-y-0.5 translate-x-5 border-2 border-transparent data-[state=open]:border-bluish-dark-brown"
     >
       {preferences.font_size}
     </Select.Trigger>
@@ -278,7 +280,7 @@
     items={line_heights}
   >
     <Select.Trigger
-      class="w-20 text-center -translate-y-0.5 translate-x-5 border-2 border-transparent data-[state=open]:border-bluish-dark-brown"
+      class="w-18 text-center -translate-y-0.5 translate-x-5 border-2 border-transparent data-[state=open]:border-bluish-dark-brown"
     >
       {preferences.line_height}
     </Select.Trigger>
@@ -309,7 +311,7 @@
 {#snippet GraphicsVisibilityInput()}
   <div class="">
     <Toggle.Root
-      class="uppercase w-20 translate-x-5"
+      class="uppercase w-18 translate-x-5"
       bind:pressed={() => preferences.graphics_visible, (v) => set_preference("graphics_visible", v)}
     >
       {#if preferences.graphics_visible}

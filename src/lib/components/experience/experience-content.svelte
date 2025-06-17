@@ -31,7 +31,7 @@
     <div>
       {#if data.author_website}
         {@const attrs = data.author_website.startsWith("/") ? {} : { target: "_blank", rel: "noopener noreferrer" }}
-        <a href={data.author_website} {...attrs}>
+        <a href={data.author_website} {...attrs} class="link">
           <span>{data.author_fullname},</span>
         </a>
       {:else}
