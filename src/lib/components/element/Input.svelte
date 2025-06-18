@@ -5,11 +5,12 @@
     type: NonNullable<HTMLInputTypeAttribute>;
   } & HTMLInputAttributes;
 
-  let { children, class: classes, value = $bindable(), ...rest_props }: Props = $props();
+  let { class: classes, value = $bindable(), ...restprops }: Props = $props();
 </script>
 
 <input
-  {...rest_props}
   bind:value
-  class="py-1 px-1.5 disabled:opacity-75 bg-transparent border focus:outline-0 border-bluish-dark-brown ring-0 focus:ring-0 {classes}"
+  spellcheck="true"
+  class="py-1 px-1.5 w-full bg-transparent border border-bluish-dark-brown disabled:opacity-75 {classes}"
+  {...restprops}
 />

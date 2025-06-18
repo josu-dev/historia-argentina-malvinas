@@ -30,6 +30,10 @@
   scrollbar-gutter: stable;
 }
 
+@utility scrollbar-thin {
+  scrollbar-width: thin;
+}
+
 @utility outline-dev {
   @apply outline outline-fuchsia-500;
 }

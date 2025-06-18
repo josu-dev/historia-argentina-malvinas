@@ -16,7 +16,7 @@
       open?: boolean;
       event?: Model.EventSectionWithExperiences;
     };
-    on_new_experience: (event: { id: string }) => void;
+    on_new_experience: (event: Model.EventSection) => void;
   };
   const { initial = {}, on_new_experience }: Props = $props();
 
@@ -49,7 +49,7 @@
     if (event === undefined) {
       return;
     }
-    on_new_experience({ id: event.id });
+    on_new_experience({...event});
   }
 
   function handle_prev() {

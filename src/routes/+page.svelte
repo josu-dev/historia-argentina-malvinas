@@ -34,7 +34,9 @@
   <Scrollable.Hero>
     <span>Historia Argentina</span>
     <span>Malvinas</span>
-    <p class="text-2xl font-normal mt-[2lh]">Cronología narrativa de los sucesos y eventos ocurridos durante la Guerra de Malvinas</p>
+    <p class="text-2xl font-normal mt-[2lh]">
+      Cronología narrativa de los sucesos y eventos ocurridos durante la Guerra de Malvinas
+    </p>
   </Scrollable.Hero>
   <div class="">
     {#each data.sections as section, i (section.id)}
@@ -51,7 +53,6 @@
               </defs>
               <image
                 href={section.img.src}
-                aria-label={section.img.alt}
                 clip-path="url(#theclippathid{i})"
                 width="303.09"
                 height="238.66"
@@ -89,8 +90,8 @@
     open: initial_event !== undefined,
     event: initial_event,
   }}
-  on_new_experience={({ id }) => {
-    experience_form.open_for(id);
+  on_new_experience={(event) => {
+    experience_form.open_for(event);
   }}
 />
 

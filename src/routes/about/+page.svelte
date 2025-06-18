@@ -32,7 +32,6 @@
               </defs>
               <image
                 href={section.img.src}
-                aria-label={`Imagen ilustrativa para la sección de ${section.title}.`}
                 clip-path="url(#theclippathid{i})"
                 width="303.09"
                 height="238.66"

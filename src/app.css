@@ -57,11 +57,11 @@
     /* @apply bg-background text-foreground; */
   }
 
-  a, button, input {
+  a, button, input, textarea {
     @apply cursor-pointer focus-visible:outline-2 focus-visible:ring-0;
   }
 
-  button:disabled, input:disabled {
+  button:disabled, input:disabled, textarea:disabled {
     @apply cursor-not-allowed;
   }
 }
