@@ -1,6 +1,6 @@
 import { db } from '$lib/server/db/base.js';
 import { t } from '$lib/server/db/index.js';
-import { redirect } from '@sveltejs/kit';
+import { error, redirect } from '@sveltejs/kit';
 import { eq } from 'drizzle-orm';
 import { fail, superValidate } from 'sveltekit-superforms';
 import { zod4 } from 'sveltekit-superforms/adapters';
@@ -40,6 +40,9 @@ export const load: PageServerLoad = async ({ locals }) => {
             .from(t.experience_rejected)
     ]);
 
+    if (events.length === 0) {
+        error(500, "Events not seeded.");
+    }
 
     const approve_request_form = await superValidate(zod4(approve_request_schema));
     const reject_request_form = await superValidate(zod4(reject_request_schema));

@@ -23,5 +23,6 @@ export const DEFAULT_SITE_USER_PREFERS = {
     font_family: "lexend",
     font_size: "16",
     line_height: "1",
-    graphics_visible: true
+    graphics_visible: true,
+    details_open: false
 } as const;

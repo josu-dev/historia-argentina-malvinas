@@ -15,10 +15,10 @@ export const event = sqliteTable(
         img_width: integer().notNull(),
         img_height: integer().notNull(),
         img_alt: text().notNull(),
-        content: text().notNull(),
+        summary: text().notNull(),
+        content: text({ mode: 'json' }).notNull().$type<Array<string>>(),
         displayed: integer({ mode: 'boolean' }).default(true).notNull(),
-        created_at: text().default(sql`(CURRENT_TIMESTAMP)`).notNull(),
-        updated_at: integer({ mode: 'timestamp' }).$onUpdate(() => new Date())
+        created_at: text().default(sql`(CURRENT_TIMESTAMP)`).notNull()
     }
 );
 
@@ -33,7 +33,7 @@ export const experience = sqliteTable(
         event_id: text().notNull().references(() => event.id, { onDelete: 'cascade' }),
         title: text().notNull(),
         date: text().notNull(),
-        content: text().notNull(),
+        content: text({ mode: 'json' }).notNull().$type<Array<string>>(),
         author_email: text().notNull(),
         author_fullname: text().notNull(),
         author_perspective: text().notNull(),

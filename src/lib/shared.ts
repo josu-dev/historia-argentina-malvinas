@@ -14,13 +14,31 @@ function make_detailed_image({ src, width = 512, height = 512, alt }: Model.Deta
     return out;
 }
 
-function make_detailed_date(yymmdd: string): Model.DetailedDate {
-    const [year, month, day] = yymmdd.split('-')
+const months = {
+    1: "enero",
+    2: "febrero",
+    3: "marzo",
+    4: "abril",
+    5: "mayo",
+    6: "junio",
+    7: "julio",
+    8: "agosto",
+    9: "septiembre",
+    10: "octubre",
+    11: "noviembre",
+    12: "diciembre",
+};
+
+function make_detailed_date(utc: string): Model.DetailedDate {
+    const date = new Date(utc);
+    const day = date.getUTCDate();
+    const month = date.getUTCMonth();
     const out: Model.DetailedDate = {
-        utc: yymmdd,
-        day: parseInt(day),
-        month: parseInt(month),
-        year: parseInt(year)
+        utc: utc,
+        day: day,
+        month: month,
+        year: date.getUTCFullYear(),
+        dd_month: `${day} de ${months[month as keyof typeof months]}`
     };
     return out;
 }
@@ -35,10 +53,11 @@ export function make_scrollable_section({ id, title, content, img_alt, img_heigh
     return out;
 }
 
-export function make_event_section({ date, ...rest }: Model.EventSectionInit): Model.EventSection {
+export function make_event_section({ date, summary, ...rest }: Model.EventSectionInit): Model.EventSection {
     const out: Model.EventSection = {
         ...make_scrollable_section(rest),
         date: make_detailed_date(date),
+        summary: summary,
     };
     return out;
 }

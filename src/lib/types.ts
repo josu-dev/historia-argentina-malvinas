@@ -5,6 +5,7 @@ export interface DetailedDate {
     day: number;
     month: number;
     year: number;
+    dd_month: string;
 }
 
 export interface DetailedImage {
@@ -21,7 +22,7 @@ export interface DetailedImageInit {
     alt?: string;
 }
 
-export type RenderableContent = string;
+export type RenderableContent = Array<string>;
 
 export interface RenderableContentAttr {
     content: RenderableContent;
@@ -36,7 +37,7 @@ export interface ScrollableSection extends RenderableContentAttr {
 export interface ScrollableSectionInit {
     id: string;
     title: string;
-    content: string;
+    content: Array<string>;
     img_url: string;
     img_width: number;
     img_height: number;
@@ -61,10 +62,12 @@ export interface EventExperience extends RenderableContentAttr, PublicAuthorAttr
 
 export interface EventSection extends ScrollableSection {
     date: DetailedDate;
+    summary: string;
 }
 
 export interface EventSectionInit extends ScrollableSectionInit {
     date: string;
+    summary: string;
 }
 
 export interface EventSectionWithExperiences extends EventSection {

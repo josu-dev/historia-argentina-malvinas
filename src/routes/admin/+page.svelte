@@ -35,9 +35,6 @@
   <header class="px-4 flex items-center h-16 border-b">
     <h1 class="text-xl font-semibold">Panel de Administracion</h1>
     <div class="ml-8 flex gap-2">
-      <div class="bg-card rounded-md">
-        <Button href="/" variant="outline" class="link">Inicio</Button>
-      </div>
       <form action="/login/logout" method="post" use:enhance class="bg-card rounded-md">
         <Button type="submit" variant="outline">Cerrar sesion</Button>
       </form>

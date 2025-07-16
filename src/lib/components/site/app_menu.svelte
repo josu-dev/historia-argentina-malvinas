@@ -16,6 +16,7 @@
     font_size: string;
     line_height: string;
     graphics_visible: boolean;
+    details_open: boolean;
   };
 
   function get_site_user_preferences(): SiteUserPreferences {
@@ -38,6 +39,7 @@
       font_size: value.font_size,
       line_height: value.line_height,
       graphics_visible: value.graphics_visible,
+      details_open: false
     };
   }
 
@@ -68,6 +70,12 @@
         } else {
           document.documentElement.setAttribute("data-hide-graphics", "");
         }
+        break;
+      }
+      case "details_open": {
+        document.documentElement.querySelectorAll("details").forEach((e) => {
+          e.open = value as boolean;
+        });
         break;
       }
     }
@@ -127,7 +135,7 @@
   <div class="fixed top-0 right-0 z-10 flex justify-end py-4 px-2">
     <Dialog.Trigger>
       {#snippet child({ props })}
-        <Button {...props} class="leading-none bg-bluish-dark-brown/80">Menu</Button>
+        <Button {...props} class="leading-none bg-bluish-dark-brown text-lg">Menu</Button>
       {/snippet}
     </Dialog.Trigger>
   </div>
@@ -149,7 +157,7 @@
           </Dialog.Close>
         </div>
 
-        <div class="flex flex-col gap-3">
+        <div class="flex flex-col gap-3 mr-5">
           <div class="flex gap-3 justify-between">
             {@render OptionLabel("option-font-family", "Fuente")}
             {@render FontFamilyInput()}
@@ -166,30 +174,34 @@
             {@render OptionLabel("option-font-size", "Graficos visibles")}
             {@render GraphicsVisibilityInput()}
           </div>
+          <div class="flex gap-3 justify-between">
+            {@render OptionLabel("option-font-size", "Detalles abiertos")}
+            {@render DetailsOpenInput()}
+          </div>
         </div>
 
-        <div class="mt-12">
-          {#if current_page === "/"}
-            <a
-              href="/about"
-              onclick={() => {
-                dialog_open.set(false);
-              }}
-              class="link"
-            >
-              Acerca de
-            </a>
-          {:else}
-            <a
-              href="/"
-              onclick={() => {
-                dialog_open.set(false);
-              }}
-              class="link"
-            >
-              Inicio
-            </a>
-          {/if}
+        <div class="mt-6 flex">
+          <a
+            href="/"
+            onclick={() => {
+              dialog_open.set(false);
+            }}
+            class="link"
+            aria-current={current_page === "/" ? "page" : undefined}
+          >
+            Inicio
+          </a>
+          <hr class="w-0 mx-3" />
+          <a
+            href="/about"
+            onclick={() => {
+              dialog_open.set(false);
+            }}
+            class="link"
+            aria-current={current_page === "/about" ? "page" : undefined}
+          >
+            Acerca de
+          </a>
         </div>
       </div>
     </Dialog.Content>
@@ -208,7 +220,7 @@
     items={font_families}
   >
     <Select.Trigger
-      class="w-[14ch] text-center -translate-y-0.5 translate-x-5 border-2 border-transparent data-[state=open]:border-bluish-dark-brown"
+      class="w-[14ch] text-center -translate-y-0.5 translate-x-5 border-2 border-bluish-dark-brown data-[state=open]:border-bluish-dark-brown"
     >
       {font_families.find((f) => f.value === preferences.font_family)?.label}
     </Select.Trigger>
@@ -244,7 +256,7 @@
     items={font_sizes}
   >
     <Select.Trigger
-      class="w-18 text-center -translate-y-0.5 translate-x-5 border-2 border-transparent data-[state=open]:border-bluish-dark-brown"
+      class="w-18 text-center -translate-y-0.5 translate-x-5 border-2 border-bluish-dark-brown data-[state=open]:border-bluish-dark-brown"
     >
       {preferences.font_size}
     </Select.Trigger>
@@ -280,7 +292,7 @@
     items={line_heights}
   >
     <Select.Trigger
-      class="w-18 text-center -translate-y-0.5 translate-x-5 border-2 border-transparent data-[state=open]:border-bluish-dark-brown"
+      class="w-18 text-center -translate-y-0.5 translate-x-5 border-2 border-bluish-dark-brown data-[state=open]:border-bluish-dark-brown"
     >
       {preferences.line_height}
     </Select.Trigger>
@@ -311,10 +323,25 @@
 {#snippet GraphicsVisibilityInput()}
   <div class="">
     <Toggle.Root
-      class="uppercase w-18 translate-x-5"
+      class="uppercase w-18 translate-x-5 border-2 border-bluish-dark-brown"
       bind:pressed={() => preferences.graphics_visible, (v) => set_preference("graphics_visible", v)}
     >
       {#if preferences.graphics_visible}
+        Si
+      {:else}
+        No
+      {/if}
+    </Toggle.Root>
+  </div>
+{/snippet}
+
+{#snippet DetailsOpenInput()}
+  <div class="">
+    <Toggle.Root
+      class="uppercase w-18 translate-x-5 border-2 border-bluish-dark-brown"
+      bind:pressed={() => preferences.details_open, (v) => set_preference("details_open", v)}
+    >
+      {#if preferences.details_open}
         Si
       {:else}
         No

@@ -57,7 +57,7 @@
     /* @apply bg-background text-foreground; */
   }
 
-  a, button, input, textarea {
+  a, button, input, textarea, summary {
     @apply cursor-pointer focus-visible:outline-2 focus-visible:ring-0;
   }
 

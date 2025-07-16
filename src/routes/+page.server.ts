@@ -81,7 +81,7 @@ export const actions: Actions = {
             author_fullname: form.data.author_fullname,
             author_perspective: form.data.author_perspective,
             author_website: form.data.author_website,
-            content: form.data.content
+            content: [form.data.content]
         };
 
         await db.transaction(async tx => {
