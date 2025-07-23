@@ -80,8 +80,8 @@
                 <div class="text-2xl uppercase">{section.date.dd_month}</div>
                 <div class="text-4xl font-bold uppercase mt-[0.25lh]">{section.title}</div>
               </div>
-              {#if section.summary === undefined}
-                <div class="space-y-[1lh] text-xl whitespace-pre-line">
+              {#if section.summary.length === 0}
+                <div class="space-y-4 text-xl">
                   {#each section.content as p}
                     <p>{p}</p>
                   {/each}
@@ -94,7 +94,7 @@
                       <span class="inline-block transition-transform group-open:rotate-90" aria-hidden="true"> ► </span>
                       <span>Leer mas</span>
                     </summary>
-                    <div class="mt-4 space-y-4">
+                    <div class="mt-5 space-y-4">
                       {#each section.content as p}
                         <p>{p}</p>
                       {/each}

@@ -32,7 +32,7 @@ const months = {
 function make_detailed_date(utc: string): Model.DetailedDate {
     const date = new Date(utc);
     const day = date.getUTCDate();
-    const month = date.getUTCMonth();
+    const month = date.getUTCMonth() + 1;
     const out: Model.DetailedDate = {
         utc: utc,
         day: day,

@@ -57,7 +57,7 @@
               <div class="pt-8 pb-12 font-bold uppercase invisible" aria-hidden="true">
                 <div class="text-4xl mt-[0.25lh]">{section.title}</div>
               </div>
-              <div class="space-y-[1lh] text-xl whitespace-pre-line">
+              <div class="space-y-4 text-xl">
                 {#each section.content as p}
                   <p>{p}</p>
                 {/each}
