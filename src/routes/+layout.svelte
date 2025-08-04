@@ -1,6 +1,5 @@
 <script lang="ts">
   import AppMenu from "$lib/components/site/app_menu.svelte";
-  import GoToTop from "$lib/components/site/go_to_top.svelte";
   import "../app.css";
 
   let { children } = $props();
@@ -13,7 +12,3 @@
 <AppMenu />
 
 {@render children()}
-
-<footer class="h-64 lg:h-96"></footer>
-
-<GoToTop />

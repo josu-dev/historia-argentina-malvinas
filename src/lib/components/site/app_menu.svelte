@@ -39,7 +39,7 @@
       font_size: value.font_size,
       line_height: value.line_height,
       graphics_visible: value.graphics_visible,
-      details_open: false
+      details_open: false,
     };
   }
 
@@ -201,6 +201,17 @@
             aria-current={current_page === "/about" ? "page" : undefined}
           >
             Acerca de
+          </a>
+          <hr class="w-0 mx-3" />
+          <a
+            href="/qr"
+            onclick={() => {
+              dialog_open.set(false);
+            }}
+            class="link"
+            aria-current={current_page === "/qr" ? "page" : undefined}
+          >
+            Qr
           </a>
         </div>
       </div>

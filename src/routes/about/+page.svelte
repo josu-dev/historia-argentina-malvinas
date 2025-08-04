@@ -1,4 +1,6 @@
 <script lang="ts">
+  import Footer from "$lib/components/site/footer.svelte";
+  import GoToTop from "$lib/components/site/go_to_top.svelte";
   import Hero from "$lib/components/site/hero.svelte";
   import Main from "$lib/components/site/main.svelte";
   import Metadata from "$lib/components/site/metadata.svelte";
@@ -68,4 +70,6 @@
       </article>
     {/each}
   </div>
+  <Footer />
+  <GoToTop />
 </Main>
